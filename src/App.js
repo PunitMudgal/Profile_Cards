@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Card from './Component/Card';
+import Navbar from './Component/Navbar';
+import Data from './Data';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+export default function App(props) {
+
+  const [info, setInfo] = useState(Data);
+ 
+function togglebutton(id){
+  setInfo(preInfo => {
+    return preInfo.map((square) => {
+      return {
+        ...square, isFavorite: !square.isFavorite,
+      }
+    })
+  })
 }
 
-export default App;
+  // function togglebutton(id) {
+  //   setInfo((preInfo) => {
+  //     return {
+  //       ...preInfo,                 // here took the whole value of info from the hook and changed the isFavorite value to opposite whenever its clicked
+  //       isFavorite: !preInfo.isFavorite,
+  //     };
+  //   });
+  // }
+
+  const Element = info.map((square) => (
+    <Card info={info} togglebutton={togglebutton} key={square.id} everything={square} />
+  ))
+  // console.log(info)
+
+  return (
+    <>
+      <Navbar />
+      <div className="flex justify-cente items-center">
+        {Element}
+        {/* <Card info={info} togglebutton={togglebutton} /> */}
+      </div>
+    </>
+  );
+}
